@@ -2,7 +2,7 @@
 
 using vendingmachine::Product;
 
-Product::Product(std::string name, double price, std::string details, int calories) : name{name}, price{price}, details{details}, calories{calories}
+Product::Product(std::string name, double price, std::string details) : name{name}, price{price}, details{details}
 {
 
 }
@@ -20,9 +20,4 @@ double Product::getPrice()
 std::string Product::getDetails()
 {
     return details;
-}
-
-int Product::getCalories()
-{
-    return calories;
 }
