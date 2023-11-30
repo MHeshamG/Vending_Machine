@@ -6,7 +6,11 @@ project(vending-machine)
 set(EXE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachine.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachineState.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Product.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/IdleState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/HasMoneyState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/ProductSelectedState.cpp"
     )
 
 add_executable(vending-machine-exe ${EXE_SOURCES})

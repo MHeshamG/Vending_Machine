@@ -1,113 +1,116 @@
 #include "VendingMachine.h"
 
 using vendingmachine::VendingMachine;
-using VMErrorCode = vendingmachine::VendingMachine::VendingMachineErrorCode;
-using VMState = vendingmachine::VendingMachine::VendingMachineStates;
+using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 using Product = vendingmachine::Product;
 
-
-VendingMachine::VendingMachine() : moneyAmount{0}, state{VMState::IDLE}
+VendingMachine::VendingMachine() : moneyAmount{0}
 {
-    std::cout<<"Vending Machine starting..."<<std::endl;
+    std::cout << "Vending Machine starting..." << std::endl;
 }
 
-VMErrorCode VendingMachine::insertMoney(double money)
+void VendingMachine::init(std::unique_ptr<VendingMachineState> state)
 {
-    switch(state)
-    {
-        case VMState::IDLE:
-            state = VMState::HAS_MONEY;
-            moneyAmount += money;
-            std::cout<< "Money inserted: "<<moneyAmount<<std::endl;
-        break;
-        case VMState::HAS_MONEY:
-            moneyAmount += money;
-            std::cout<< "Money inserted: "<<moneyAmount<<std::endl;
-        break;
-        case VMState::PRODUCT_SELECTED:
-            return VMErrorCode::INVALID_OPERATION;       
-        break;
-    }
-
-    return VMErrorCode::SUCCESS;
+    currentState = std::move(state);
 }
 
-VMErrorCode VendingMachine::selectProduct(std::string productName)
+VendingMachineErrorCode VendingMachine::insertMoney(double money)
 {
-    switch(state)
-    {
-        case VMState::IDLE:
-            return VMErrorCode::MACHINE_HAS_NO_MONEY;
-        break;
-        case VMState::HAS_MONEY:
-        case VMState::PRODUCT_SELECTED:
-            const auto& it = availableProducts.find(productName);
-            if(it != availableProducts.end()){
-                const double& price = it->second.getPrice();
-                if(moneyAmount >= price){
-                    state = VMState::PRODUCT_SELECTED;
-                    choice = it->second;
-                    std::cout<< "Product choosen: "<<productName<<std::endl;
-                }
-                else{
-                    state = VMState::HAS_MONEY;
-                    std::cout<< "Please insert more money."<<productName<<std::endl;
-                    return VMErrorCode::NOT_ENOUGH_MONEY;
-                }
-            }
-            else{
-                state = VMState::HAS_MONEY;
-                std::cout<< "Product not found: "<<productName<<std::endl;
-                return VMErrorCode::PRODUCT_NOT_FOUND;
-            }
-        break;
-    }
-    return VMErrorCode::SUCCESS;
+    return currentState->insertMoney(money);
 }
 
-VMErrorCode VendingMachine::dispenseProduct()
+VendingMachineErrorCode VendingMachine::selectProduct(std::string productName)
 {
-    switch(state)
-    {
-        case VMState::IDLE:
-            return VMErrorCode::MACHINE_HAS_NO_MONEY;
-        break;
-        case VMState::HAS_MONEY:
-            return VMErrorCode::NO_PRODUCT_SELECTED;
-        break;
-        case VMState::PRODUCT_SELECTED:
-                moneyAmount -= choice.getPrice();
-                if(moneyAmount > 0){
-                    std::cout<<"Returning change: "<<moneyAmount<<std::endl;
-                    moneyAmount = 0;
-                }
-                std::cout<<"Dispensing product: "<<choice.getName()<<std::endl;
-                state = VMState::IDLE;
-        break;
-    }
-    return VMErrorCode::SUCCESS;
+    return currentState->selectProduct(productName);
+}
+
+VendingMachineErrorCode VendingMachine::dispenseProduct()
+{
+    return currentState->dispenseProduct();
 }
 
 std::vector<Product> VendingMachine::getProductsList()
 {
     std::vector<Product> availableProductsVector;
-    for(const auto& [name,product] : availableProducts){
+    for (const auto &[name, product] : availableProducts)
+    {
         availableProductsVector.push_back(product);
     }
     return availableProductsVector;
 }
 
-VMErrorCode VendingMachine::addProduct(Product product)
+VendingMachineErrorCode VendingMachine::addProduct(Product product)
 {
-    const auto& it =  availableProducts.find(product.getName());
-    if(it==availableProducts.end()){
-        const auto& it = availableProducts.insert({product.getName(),product});
-        std::cout<<"Product added successfully "<<product.getName()<<std::endl;
+    const auto &it = availableProducts.find(product.getName());
+    if (it == availableProducts.end())
+    {
+        const auto &it = availableProducts.insert({product.getName(), product});
+        std::cout << "Product added successfully " << product.getName() << std::endl;
     }
-    else{
-        std::cout<<"Product already added: "<<product.getName()<<std::endl;
-        return VMErrorCode::PRODUCT_ALREADY_ADDED;
+    else
+    {
+        std::cout << "Product already added: " << product.getName() << std::endl;
+        return VendingMachineErrorCode::PRODUCT_ALREADY_ADDED;
     }
 
-    return VMErrorCode::SUCCESS;
+    return VendingMachineErrorCode::SUCCESS;
+}
+
+void VendingMachine::setInsertedMoneyAmount(double money)
+{
+    moneyAmount = money;
+}
+
+double VendingMachine::getInsertedMoneyAmount()
+{
+    return moneyAmount;
+}
+
+void VendingMachine::changeState(std::unique_ptr<VendingMachineState> state)
+{
+    currentState = std::move(state);
+}
+
+bool VendingMachine::hasProduct(std::string productName)
+{
+    const auto &it = availableProducts.find(productName);
+    return it != availableProducts.end();
+}
+
+std::pair<bool, Product> VendingMachine::getProduct(std::string productName)
+{
+    Product product;
+    const auto &it = availableProducts.find(productName);
+    if (it != availableProducts.end())
+    {
+        product = it->second;
+        return {true, product};
+    }
+    return {false, product};
+}
+
+bool VendingMachine::hasEnoughMoneyForProduct(std::string productName)
+{
+    const auto& [found, product] = getProduct(productName);
+    if (found)
+    {
+        return moneyAmount >= product.getPrice();
+    }
+    return false;
+}
+
+bool VendingMachine::setSelectedProduct(std::string productName)
+{
+    auto [found, product] = getProduct(productName);
+    if (found)
+    {
+        choice = product;
+        return true;
+    }
+    return false;
+}
+
+Product VendingMachine::getSelectedProduct()
+{
+    return choice;
 }

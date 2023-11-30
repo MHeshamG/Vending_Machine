@@ -10,11 +10,15 @@ namespace vendingmachine
         public:
             Product() = default;
             Product(std::string name, double price, std::string details);
+            Product(const Product&);
+            Product(const Product&&);
+            Product& operator=(const Product&& other);
+            Product& operator=(const Product& other);
             ~Product() = default;
 
-            std::string getName();
-            double getPrice();
-            std::string getDetails();
+            std::string getName()const;
+            double getPrice()const;
+            std::string getDetails()const;
         private:
             std::string name;
             double price;
