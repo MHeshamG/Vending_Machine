@@ -11,22 +11,33 @@ VendingMachine::VendingMachine() : moneyAmount{0}
 
 void VendingMachine::init(std::unique_ptr<VendingMachineState> state)
 {
-    currentState = std::move(state);
+    if(state != nullptr){
+        currentState = std::move(state);
+    }
 }
 
 VendingMachineErrorCode VendingMachine::insertMoney(double money)
 {
-    return currentState->insertMoney(money);
+    if(currentState != nullptr){
+        return currentState->insertMoney(money);
+    }
+    return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 VendingMachineErrorCode VendingMachine::selectProduct(std::string productName)
 {
-    return currentState->selectProduct(productName);
+    if(currentState != nullptr){
+        return currentState->selectProduct(productName);
+    }
+    return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 VendingMachineErrorCode VendingMachine::dispenseProduct()
 {
-    return currentState->dispenseProduct();
+    if(currentState != nullptr){
+        return currentState->dispenseProduct();
+    }
+    return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 std::vector<Product> VendingMachine::getProductsList()
@@ -83,15 +94,14 @@ std::pair<bool, Product> VendingMachine::getProduct(std::string productName)
     const auto &it = availableProducts.find(productName);
     if (it != availableProducts.end())
     {
-        product = it->second;
-        return {true, product};
+        return {true, it->second};
     }
     return {false, product};
 }
 
 bool VendingMachine::hasEnoughMoneyForProduct(std::string productName)
 {
-    const auto& [found, product] = getProduct(productName);
+    auto [found, product] = getProduct(productName);
     if (found)
     {
         return moneyAmount >= product.getPrice();
@@ -110,7 +120,7 @@ bool VendingMachine::setSelectedProduct(std::string productName)
     return false;
 }
 
-Product VendingMachine::getSelectedProduct()
+Product& VendingMachine::getSelectedProduct()
 {
     return choice;
 }

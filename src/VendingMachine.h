@@ -58,14 +58,53 @@ namespace vendingmachine
          */
         VendingMachineErrorCode addProduct(Product p);
 
+        /**
+         * @brief Method to init vending machine with the initial state.
+         * @param state Initial state.
+         */
         void init(std::unique_ptr<VendingMachineState> state);
+
+        /**
+         * @brief Method to init vending machine with the initial state.
+         * @param state Initial state.
+         */
         void setInsertedMoneyAmount(double money);
+
+        /**
+         * @brief Method to get current amount of money inseted in the machine.
+         * @return Amount of money inserted.
+         */
         double getInsertedMoneyAmount();
+
+        /**
+         * @brief Method to change vending machine state.
+         * @param state current state.
+         */
         void changeState(std::unique_ptr<VendingMachineState> state);
+
+        /**
+         * @brief Method to check if product is in inventory.
+         * @param productName product name.
+         */
         bool hasProduct(std::string productName);
+
+        /**
+         * @brief Method to check if product is in inventory.
+         * @param productName The name of the product to check against.
+         */
         bool hasEnoughMoneyForProduct(std::string productName);
+
+        /**
+         * @brief Method to set the selected product by the customer.
+         * @param productName The name of the product to be selected.
+         */
         bool setSelectedProduct(std::string productName);
-        Product getSelectedProduct();
+
+        /**
+         * @brief Method to get the selected product by the customer.
+         * @param productName The name of the product selected.
+         */
+        Product &getSelectedProduct();
 
     private:
         double moneyAmount;
