@@ -1,0 +1,9 @@
+# ninja log v5
+0	382	1702123137255743000	CMakeFiles/vending-machine-exe.dir/src/Product.cpp.o	bfef126de15ffd5c
+1	395	1702123137255743000	CMakeFiles/vending-machine-exe.dir/src/states/VendingMachineState.cpp.o	7b0db299955b2f0f
+1	1683	1702123138555740200	CMakeFiles/vending-machine-exe.dir/src/states/IdleState.cpp.o	c1f7a88da523d313
+0	1723	1702123138595740100	CMakeFiles/vending-machine-exe.dir/src/main.cpp.o	8060d0a942d781c9
+0	1950	1702123138823739600	CMakeFiles/vending-machine-exe.dir/src/VendingMachine.cpp.o	d07daccc44f010a
+1	2125	1702123138995739200	CMakeFiles/vending-machine-exe.dir/src/states/HasMoneyState.cpp.o	f56740dd05d3db94
+2	2180	1702123139051739100	CMakeFiles/vending-machine-exe.dir/src/states/ProductSelectedState.cpp.o	99c3df45d7e6161b
+2180	2262	1702123139131738900	vending-machine-exe	3a8d5c4ad28d6fa8

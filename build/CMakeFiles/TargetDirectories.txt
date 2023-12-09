@@ -1,0 +1,3 @@
+/media/abdullah/Abdullah/01_Cpp Professional/Hesham_SEITech_CPP_Repo/Vending_Machine/build/CMakeFiles/vending-machine-exe.dir
+/media/abdullah/Abdullah/01_Cpp Professional/Hesham_SEITech_CPP_Repo/Vending_Machine/build/CMakeFiles/edit_cache.dir
+/media/abdullah/Abdullah/01_Cpp Professional/Hesham_SEITech_CPP_Repo/Vending_Machine/build/CMakeFiles/rebuild_cache.dir
