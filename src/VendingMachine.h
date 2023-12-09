@@ -28,6 +28,7 @@ namespace vendingmachine
                 NO_PRODUCT_SELECTED,
                 PRODUCT_ALREADY_ADDED,
                 PRODUCT_NOT_FOUND,
+                OUT_OF_PRODUCT,
                 GENERAL_ERROR
             };
 
@@ -73,13 +74,19 @@ namespace vendingmachine
              * @param product The Product object to be added.
              * @return VendingMachineErrorCode representing the success or failure of the operation.
             */
-            VendingMachineErrorCode addProduct(Product p);
+            VendingMachineErrorCode addProduct(Product p, unsigned char qnty);
+            
+            VendingMachineErrorCode decrementQnty();
+            double getTotalPrice();
+            void dsiplayProducts();
 
         private:
             double moneyAmount;
-            Product choice;
+            std::vector <Product> choice;
             VendingMachineStates state;
-            std::map<std::string,Product> availableProducts {};
+            std::map<std::string,std::pair<Product, unsigned char>> availableProducts {};
+
+
     };
 }
 

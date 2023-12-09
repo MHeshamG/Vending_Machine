@@ -31,6 +31,15 @@ VMErrorCode VendingMachine::insertMoney(double money)
 
     return VMErrorCode::SUCCESS;
 }
+double VendingMachine::getTotalPrice()
+{
+    double totalPrice = 0;
+    for(auto prod : choice)
+    {
+        totalPrice+=prod.getPrice();
+    }
+
+}
 
 VMErrorCode VendingMachine::selectProduct(std::string productName)
 {
@@ -43,16 +52,22 @@ VMErrorCode VendingMachine::selectProduct(std::string productName)
         case VMState::PRODUCT_SELECTED:
             const auto& it = availableProducts.find(productName);
             if(it != availableProducts.end()){
-                const double& price = it->second.getPrice();
-                if(moneyAmount >= price){
+                const double& price = getTotalPrice() + it->second.first.getPrice();
+                if(moneyAmount >= price && it->second.second > 0){
                     state = VMState::PRODUCT_SELECTED;
-                    choice = it->second;
+                    choice.push_back (it->second.first);
                     std::cout<< "Product choosen: "<<productName<<std::endl;
                 }
-                else{
+                else if(moneyAmount < price){
                     state = VMState::HAS_MONEY;
                     std::cout<< "Please insert more money."<<productName<<std::endl;
                     return VMErrorCode::NOT_ENOUGH_MONEY;
+                }
+                else 
+                {
+                    state = VMState::HAS_MONEY;
+                    std::cout<< "The product is not available at the moment."<<productName<<std::endl;
+                    return VMErrorCode::OUT_OF_PRODUCT;
                 }
             }
             else{
@@ -65,6 +80,22 @@ VMErrorCode VendingMachine::selectProduct(std::string productName)
     return VMErrorCode::SUCCESS;
 }
 
+VMErrorCode VendingMachine::decrementQnty()
+{
+    for(auto product:choice)
+    {
+        const auto& it = availableProducts.find(product.getName());
+        it->second.second--;
+    }
+}
+
+void VendingMachine::dsiplayProducts()
+{
+    for(auto product:choice)
+    {
+        std::cout<<"Dispensing product: "<<product.getName()<<std::endl;
+    }
+}
 VMErrorCode VendingMachine::dispenseProduct()
 {
     switch(state)
@@ -76,12 +107,14 @@ VMErrorCode VendingMachine::dispenseProduct()
             return VMErrorCode::NO_PRODUCT_SELECTED;
         break;
         case VMState::PRODUCT_SELECTED:
-                moneyAmount -= choice.getPrice();
+                moneyAmount -= getTotalPrice();
+                decrementQnty();
                 if(moneyAmount > 0){
                     std::cout<<"Returning change: "<<moneyAmount<<std::endl;
                     moneyAmount = 0;
                 }
-                std::cout<<"Dispensing product: "<<choice.getName()<<std::endl;
+                dsiplayProducts();
+                choice.clear();
                 state = VMState::IDLE;
         break;
     }
@@ -92,21 +125,23 @@ std::vector<Product> VendingMachine::getProductsList()
 {
     std::vector<Product> availableProductsVector;
     for(const auto& [name,product] : availableProducts){
-        availableProductsVector.push_back(product);
+        availableProductsVector.push_back(product.first);
     }
     return availableProductsVector;
 }
 
-VMErrorCode VendingMachine::addProduct(Product product)
+VMErrorCode VendingMachine::addProduct(Product product, unsigned char qnt)
 {
     const auto& it =  availableProducts.find(product.getName());
     if(it==availableProducts.end()){
-        const auto& it = availableProducts.insert({product.getName(),product});
+        const auto& it = availableProducts.insert({product.getName(),{product, qnt}});
         std::cout<<"Product added successfully "<<product.getName()<<std::endl;
     }
     else{
-        std::cout<<"Product already added: "<<product.getName()<<std::endl;
-        return VMErrorCode::PRODUCT_ALREADY_ADDED;
+        //std::cout<<"Product already added: "<<product.getName()<<std::endl;
+        //return VMErrorCode::PRODUCT_ALREADY_ADDED;
+        it->second.second+=qnt;
+        std::cout<<"Product added successfully "<<product.getName()<<std::endl;
     }
 
     return VMErrorCode::SUCCESS;
