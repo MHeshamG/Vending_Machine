@@ -9,16 +9,19 @@ namespace vendingmachine
     {
         public:
             Product() = default;
-            Product(std::string name, double price, std::string details);
+            Product(std::string name, double price, std::string details, int quantity);
             ~Product() = default;
 
             std::string getName()const;
             double getPrice()const;
             std::string getDetails()const;
+            int getQuantity() const;
+            void setQuantity(int newQuantity);
         private:
             std::string name;
             double price;
             std::string details;
+            int quantity;
     };
 }
 

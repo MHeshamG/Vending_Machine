@@ -4,7 +4,7 @@ using vendingmachine::VendingMachine;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 using Product = vendingmachine::Product;
 
-VendingMachine::VendingMachine() : moneyAmount{0}
+VendingMachine::VendingMachine() : moneyAmount{0},selectedProducts{}
 {
     std::cout << "Vending Machine starting..." << std::endl;
 }
@@ -123,4 +123,28 @@ bool VendingMachine::setSelectedProduct(std::string productName)
 Product& VendingMachine::getSelectedProduct()
 {
     return choice;
+}
+VendingMachineErrorCode VendingMachine::addSelectedProduct(const Product &product)
+{
+    if (hasEnoughMoneyForProduct(product.getName()))
+    {
+        selectedProducts.push_back(product);
+        return VendingMachineErrorCode::SUCCESS;
+    }
+    else
+    {
+        std::cout << "Not enough money to add product: " << product.getName() << std::endl;
+        return VendingMachineErrorCode::NOT_ENOUGH_MONEY;
+    }
+}
+
+// VendingMachineErrorCode VendingMachine::addSelectedProduct(const Product & product)
+// {
+//     selectedProducts.push_back(product);
+//     return VendingMachineErrorCode::SUCCESS;
+// }
+
+std::vector<Product> VendingMachine::getSelectedProducts() const
+{
+    return selectedProducts;
 }

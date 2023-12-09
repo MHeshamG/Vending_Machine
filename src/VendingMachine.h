@@ -106,11 +106,24 @@ namespace vendingmachine
          */
         Product &getSelectedProduct();
 
+         /**
+         * @brief Method to add a selected product to the list
+         * @param product The Selected Product to add.
+         */
+        VendingMachineErrorCode addSelectedProduct(const Product & product);
+
+        /**
+         * @brief Method to get the list of selected products.
+         * @return A vector of Product objects representing the selected products.
+         */
+        std::vector<Product> getSelectedProducts() const;
+
     private:
         double moneyAmount;
         Product choice;
         std::unique_ptr<VendingMachineState> currentState;
         std::map<std::string, Product> availableProducts{};
+        std::vector<Product> selectedProducts{};
 
         std::pair<bool, Product> getProduct(std::string productName);
     };

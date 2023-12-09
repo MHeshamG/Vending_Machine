@@ -3,7 +3,7 @@
 
 using vendingmachine::Product;
 
-Product::Product(std::string name, double price, std::string details) : name{name}, price{price}, details{details}
+Product::Product(std::string name, double price, std::string details, int quantity) : name{name}, price{price}, details{details}, quantity{quantity}
 {
 
 }
