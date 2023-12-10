@@ -11,7 +11,7 @@
 
 namespace vendingmachine
 {
-    class VendingMachine : public std::enable_shared_from_this<VendingMachine>
+    class VendingMachine
     {
     public:
         /**
