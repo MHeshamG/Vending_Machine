@@ -74,12 +74,21 @@ namespace vendingmachine
              * @return VendingMachineErrorCode representing the success or failure of the operation.
             */
             VendingMachineErrorCode addProduct(Product p);
+            int getProductQuantity(const std::string& productName) const;
+            double getTotalMoney() const; // Added for tracking total money spent
+            double getTotalMoneyOfSelectedProducts() const ;
+            
+
 
         private:
             double moneyAmount;
-            Product choice;
+            // Product choice;
             VendingMachineStates state;
             std::map<std::string,Product> availableProducts {};
+            double totalMoney; // New variable to track total money spent
+            std::vector<Product> selectedProducts; // New vector to store selected products
+
+       
     };
 }
 
