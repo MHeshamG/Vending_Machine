@@ -183,16 +183,20 @@ VMErrorCode VendingMachine::dispenseProducts()
         double productsTotalCosts = 0;
         for (auto &productChosen : choices)
         {
-            moneyAmount -= productChosen.getPrice();
+            productsTotalCosts += productChosen.getPrice();
             std::cout << "Dispensing product: " << productChosen.getName() << std::endl;
             std::cout << "remaining quantity: " << productChosen.getQuantity() << std::endl;
         }
+        moneyAmount = moneyAmount - productsTotalCosts;
         if (moneyAmount > 0)
         {
             std::cout << "Returning change: " << moneyAmount << std::endl;
             moneyAmount = 0;
         }
-
+        if (moneyAmount < 0)
+        {
+            std::cout << "Error Not Enought Money you enterd!  " << moneyAmount << std::endl;
+        }
         state = VMState::IDLE;
     }
     return VMErrorCode::SUCCESS;
