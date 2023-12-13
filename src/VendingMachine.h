@@ -87,6 +87,7 @@ namespace vendingmachine
         Product choice;
         VendingMachineStates state;
         std::map<std::string, Product> availableProducts{};
+        std::vector<Product> choices;
     };
 }
 

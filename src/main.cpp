@@ -25,5 +25,6 @@ int main()
     std::vector<std::string> productsVector = {"Prod1", "Prod2", "Prod3"};
     std::vector<int> quantities = {7, 9, 10};
     VM.selectProducts(productsVector, quantities);
+    VM.dispenseProducts();
     return 0;
 }

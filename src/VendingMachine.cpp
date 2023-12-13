@@ -143,6 +143,8 @@ VMErrorCode VendingMachine::selectProducts(const std::vector<std::string> &produ
                     choice.setQuantity(newQuantity); // modifing the current quantity
                     std::cout << "Product choosen: " << productName << std::endl;
                     std::cout << "Product quantity: " << quantities[indexOfTheQuantity] << std::endl;
+                    // now to keep track of selected products we add them to a vector
+                    choices.push_back(choice);
                 }
                 else if (choice.getQuantity() < quantities[indexOfTheQuantity])
                 {
@@ -166,7 +168,6 @@ VMErrorCode VendingMachine::selectProducts(const std::vector<std::string> &produ
     }
     return VMErrorCode::SUCCESS;
 }
-
 VMErrorCode VendingMachine::dispenseProducts()
 {
     switch (state)
@@ -178,16 +179,21 @@ VMErrorCode VendingMachine::dispenseProducts()
         return VMErrorCode::NO_PRODUCT_SELECTED;
         break;
     case VMState::PRODUCT_SELECTED:
-        moneyAmount -= choice.getPrice();
+
+        double productsTotalCosts = 0;
+        for (auto &productChosen : choices)
+        {
+            moneyAmount -= productChosen.getPrice();
+            std::cout << "Dispensing product: " << productChosen.getName() << std::endl;
+            std::cout << "remaining quantity: " << productChosen.getQuantity() << std::endl;
+        }
         if (moneyAmount > 0)
         {
             std::cout << "Returning change: " << moneyAmount << std::endl;
             moneyAmount = 0;
         }
-        std::cout << "Dispensing product: " << choice.getName() << std::endl;
-        std::cout << "remaining quantity: " << choice.getQuantity() << std::endl;
+
         state = VMState::IDLE;
-        break;
     }
     return VMErrorCode::SUCCESS;
 }
