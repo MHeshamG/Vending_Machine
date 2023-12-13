@@ -65,6 +65,26 @@ VMErrorCode VendingMachine::selectProduct(std::string productName)
     return VMErrorCode::SUCCESS;
 }
 
+int VendingMachine::getProductQuantity(std::string ProductName)
+{
+    switch (state)
+    {
+        case VMState::IDLE:
+            return VMErrorCode::MACHINE_HAS_NO_MONEY;
+        break;
+        case VMState::HAS_MONEY:
+        case VMState::PRODUCT_SELECTED:
+            const auto& it = availableProducts.find(productName);
+            if(it != availableProducts.end()){
+                return it->second.getAmount();
+            }
+            else{   /**/ }
+        break;
+        default:
+            return -1; 
+    }
+}
+
 VMErrorCode VendingMachine::dispenseProduct()
 {
     switch(state)
