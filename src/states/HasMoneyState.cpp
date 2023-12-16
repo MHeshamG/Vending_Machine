@@ -12,10 +12,15 @@ HasMoneyState::HasMoneyState(std::shared_ptr<VendingMachine> vm) : VendingMachin
 
 VendingMachineErrorCode HasMoneyState::insertMoney(double money)
 {
+    int minMoney = 5;
     double totalInsertedMoney = vm->getInsertedMoneyAmount() + money;
     vm->setInsertedMoneyAmount(totalInsertedMoney);
     std::cout<< "Money inserted: "<<totalInsertedMoney<<std::endl;
+    if(totalInsertedMoney < minMoney){
+        std::unique_ptr<VendingMachineState> lockstate = std::make_unique<LockState>(vm);
+        vm->changeState(std::move(lockstate));
 
+    }
     return VendingMachineErrorCode::SUCCESS;
 }
 

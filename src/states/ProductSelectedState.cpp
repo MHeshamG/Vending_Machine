@@ -25,6 +25,8 @@ VendingMachineErrorCode ProductSelectedState::selectProduct(std::string productN
         }
         else
         {
+            std::unique_ptr<VendingMachineState> lockstate = std::make_unique<LockState>(vm);
+            vm->changeState(std::move(lockstate));
             return VendingMachineErrorCode::NOT_ENOUGH_MONEY;
         }
     }
@@ -43,11 +45,16 @@ VendingMachineErrorCode ProductSelectedState::dispenseProduct()
     {
         std::cout << "Returning change: " << vm->getInsertedMoneyAmount() << std::endl;
         vm->setInsertedMoneyAmount(0.0);
-    }
-    std::cout << "Dispensing product: " << vm->getSelectedProduct().getName() << std::endl;
+        std::cout << "Dispensing product: " << vm->getSelectedProduct().getName() << std::endl;
 
-    std::unique_ptr<VendingMachineState> idleState = std::make_unique<IdleState>(vm);
-    vm->changeState(std::move(idleState));
+        std::unique_ptr<VendingMachineState> idleState = std::make_unique<IdleState>(vm);
+        vm->changeState(std::move(idleState));
+    }
+    else{
+        std::unique_ptr<VendingMachineState> lockstate = std::make_unique<LockState>(vm);
+        vm->changeState(std::move(lockstate));
+    }
+
 
     return VendingMachineErrorCode::SUCCESS;
 }
