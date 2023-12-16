@@ -25,7 +25,7 @@ VMErrorCode VendingMachine::insertMoney(double money)
             std::cout<< "Money inserted: "<<moneyAmount<<std::endl;
         break;
         case VMState::PRODUCT_SELECTED:
-            return VMErrorCode::INVALID_OPERATION;       
+            return VMErrorCode::INVALID_OPERATION;
         break;
     }
 
@@ -46,7 +46,7 @@ VMErrorCode VendingMachine::selectProduct(std::string productName)
                 double price = it->second.getPrice();
                 int quantity = it->second.getQuantity();
 
-                if (quantity > 0 && (moneyAmount - getTotalMoneyOfSelectedProducts() >= price)) {
+                if (quantity > 0 && (moneyAmount - totalMoney >= price)) {
                     state = VMState::PRODUCT_SELECTED;
                     selectedProducts.push_back(it->second);
 
@@ -58,24 +58,26 @@ VMErrorCode VendingMachine::selectProduct(std::string productName)
 
                     // Update total price
                     totalMoney += price;
-                } else {
+                }
+                else {
                     state = VMState::HAS_MONEY;
 
                     if (quantity <= 0) {
                         std::cout << "Sorry, " << productName << " is out of stock." << std::endl;
                         return VMErrorCode::PRODUCT_NOT_FOUND;
-                    } else {
+                    }
+                    else {
                         std::cout << "Not enough money to purchase: " << productName << std::endl;
-                        std::cout << "Total money spent so far: " << getTotalMoney() << std::endl;
-                        
-                        // Refund the user and reset the state
+                        std::cout << "Total money spent so far: " << totalMoney << std::endl;
+
                         moneyAmount = 0;
-                        state = VMState::IDLE;
-                        selectedProducts.clear();
+                        state = VMState::HAS_MONEY;
+                        // selectedProducts.clear();
                         return VMErrorCode::NOT_ENOUGH_MONEY;
                     }
                 }
-            } else {
+            }
+            else {
                 state = VMState::HAS_MONEY;
                 std::cout << "Product not found: " << productName << std::endl;
                 return VMErrorCode::PRODUCT_NOT_FOUND;
@@ -105,13 +107,16 @@ VMErrorCode VendingMachine::dispenseProduct()
             return VMErrorCode::NO_PRODUCT_SELECTED;
         break;
         case VMState::PRODUCT_SELECTED:
-                moneyAmount -= selectedProducts.back().getPrice();
+                moneyAmount -= getTotalMoneyOfSelectedProducts();
                 if (moneyAmount > 0) {
                     std::cout << "Returning change: " << moneyAmount << std::endl;
                     moneyAmount = 0;
                 }
 
-                std::cout << "Dispensing product: " << selectedProducts.back().getName() << std::endl;
+                for(auto p : selectedProducts)
+                {
+                    std::cout << "Dispensing product: " << p.getName() << std::endl;
+                }
                 state = VMState::IDLE;
 
                 // Clear selected products vector after dispensing

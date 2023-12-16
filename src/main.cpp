@@ -24,17 +24,17 @@ int main() {
 
     // Select and dispense multiple products
     VM.selectProduct("Prod1");
-    VM.selectProduct("Prod1");
-    
+    // VM.selectProduct("Prod1");
+
     std::cout << std::endl;
-    VM.selectProduct("Prod1");
+    // VM.selectProduct("Prod1");
     // VM.selectProduct("Prod1");
     // VM.selectProduct("Prod1");
     // VM.selectProduct("Prod1");
     // VM.selectProduct("Prod2");
     // VM.selectProduct("Prod3");
     std::cout << std::endl;
-    // VM.dispenseProduct();
+    VM.dispenseProduct();
     // VM.dispenseProduct();
 
     std::cout << "Total money spent: " << VM.getTotalMoney() << std::endl;
