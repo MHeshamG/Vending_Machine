@@ -70,19 +70,18 @@ int VendingMachine::getProductQuantity(std::string ProductName)
     switch (state)
     {
         case VMState::IDLE:
-            return VMErrorCode::MACHINE_HAS_NO_MONEY;
+            return -1;
         break;
-        case VMState::HAS_MONEY:
+        // case VMState::HAS_MONEY:
         case VMState::PRODUCT_SELECTED:
-            const auto& it = availableProducts.find(productName);
+            const auto& it = availableProducts.find(ProductName);
             if(it != availableProducts.end()){
                 return it->second.getAmount();
             }
             else{   /**/ }
-        break;
-        default:
-            return -1; 
+        break;           
     }
+    return -1;
 }
 
 VMErrorCode VendingMachine::dispenseProduct()

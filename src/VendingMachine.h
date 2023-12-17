@@ -77,11 +77,11 @@ namespace vendingmachine
 
             /**
              * @brief Method to get the quantity of a specific product.
-             * @param product The Product object to get its amount.
+             * @param productName The Product name to get its amount.
              * @return  If the product exists, return value equals its amount otherwise the it
-             *          return value equals -1; 
+             *          return value = -1; 
             */
-            int VendingMachine::getProductQuantity(std::string ProductName)
+            int getProductQuantity(std::string ProductName);
 
         private:
             double moneyAmount;
