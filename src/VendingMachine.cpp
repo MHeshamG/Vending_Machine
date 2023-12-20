@@ -4,120 +4,20 @@ using vendingmachine::VendingMachine;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 using Product = vendingmachine::Product;
 
-<<<<<<< HEAD
-
-VendingMachine::VendingMachine() : moneyAmount{0}, currentState{std::make_unique<IdleState>()}
-=======
 VendingMachine::VendingMachine() : moneyAmount{0}
->>>>>>> vending-machine-state-pattern
 {
     std::cout << "Vending Machine starting..." << std::endl;
 }
 
 void VendingMachine::init(std::unique_ptr<VendingMachineState> state)
 {
-<<<<<<< HEAD
-    /* Delegate */
-    // currentState->insertMoney(money);
-    // switch(state)
-    // {
-    //     case VMState::IDLE:
-    //         state = VMState::HAS_MONEY;
-    //         moneyAmount += money;
-    //         std::cout<< "Money inserted: "<<moneyAmount<<std::endl;
-    //     break;
-    //     case VMState::HAS_MONEY:
-    //         moneyAmount += money;
-    //         std::cout<< "Money inserted: "<<moneyAmount<<std::endl;
-    //     break;
-    //     case VMState::PRODUCT_SELECTED:
-    //         return VMErrorCode::INVALID_OPERATION;       
-    //     break;
-    // }
-    
-    return VMErrorCode::SUCCESS;
-=======
     if(state != nullptr){
         currentState = std::move(state);
     }
->>>>>>> vending-machine-state-pattern
 }
 
 VendingMachineErrorCode VendingMachine::insertMoney(double money)
 {
-<<<<<<< HEAD
-    // switch(state)
-    // {
-    //     case VMState::IDLE:
-    //         return VMErrorCode::MACHINE_HAS_NO_MONEY;
-    //     break;
-    //     case VMState::HAS_MONEY:
-    //     case VMState::PRODUCT_SELECTED:
-    //         const auto& it = availableProducts.find(productName);
-    //         if(it != availableProducts.end()){
-    //             const double& price = it->second.getPrice();
-    //             if(moneyAmount >= price){
-    //                 state = VMState::PRODUCT_SELECTED;
-    //                 choice = it->second;
-    //                 std::cout<< "Product choosen: "<<productName<<std::endl;
-    //             }
-    //             else{
-    //                 state = VMState::HAS_MONEY;
-    //                 std::cout<< "Please insert more money."<<productName<<std::endl;
-    //                 return VMErrorCode::NOT_ENOUGH_MONEY;
-    //             }
-    //         }
-    //         else{
-    //             state = VMState::HAS_MONEY;
-    //             std::cout<< "Product not found: "<<productName<<std::endl;
-    //             return VMErrorCode::PRODUCT_NOT_FOUND;
-    //         }
-    //     break;
-    // }
-    return VMErrorCode::SUCCESS;
-}
-
-int VendingMachine::getProductQuantity(std::string ProductName)
-{
-    // switch (state)
-    // {
-    //     case VMState::IDLE:
-    //         return -1;
-    //     break;
-    //     // case VMState::HAS_MONEY:
-    //     case VMState::PRODUCT_SELECTED:
-    //         const auto& it = availableProducts.find(ProductName);
-    //         if(it != availableProducts.end()){
-    //             return it->second.getAmount();
-    //         }
-    //         else{   /**/ }
-    //     break;           
-    // }
-    return -1;
-}
-
-VMErrorCode VendingMachine::dispenseProduct()
-{
-    // switch(state)
-    // {
-    //     case VMState::IDLE:
-    //         return VMErrorCode::MACHINE_HAS_NO_MONEY;
-    //     break;
-    //     case VMState::HAS_MONEY:
-    //         return VMErrorCode::NO_PRODUCT_SELECTED;
-    //     break;
-    //     case VMState::PRODUCT_SELECTED:
-    //             moneyAmount -= choice.getPrice();
-    //             if(moneyAmount > 0){
-    //                 std::cout<<"Returning change: "<<moneyAmount<<std::endl;
-    //                 moneyAmount = 0;
-    //             }
-    //             std::cout<<"Dispensing product: "<<choice.getName()<<std::endl;
-    //             state = VMState::IDLE;
-    //     break;
-    // }
-    return VMErrorCode::SUCCESS;
-=======
     if(currentState != nullptr){
         return currentState->insertMoney(money);
     }
@@ -138,7 +38,6 @@ VendingMachineErrorCode VendingMachine::dispenseProduct()
         return currentState->dispenseProduct();
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
->>>>>>> vending-machine-state-pattern
 }
 
 std::vector<Product> VendingMachine::getProductsList()
@@ -165,14 +64,6 @@ VendingMachineErrorCode VendingMachine::addProduct(Product product)
         return VendingMachineErrorCode::PRODUCT_ALREADY_ADDED;
     }
 
-<<<<<<< HEAD
-    return VMErrorCode::SUCCESS;
-}
-
-void VendingMachine::setInsertedMoney(double money)
-{
-    moneyAmount +=money;
-=======
     return VendingMachineErrorCode::SUCCESS;
 }
 
@@ -232,5 +123,4 @@ bool VendingMachine::setSelectedProduct(std::string productName)
 Product& VendingMachine::getSelectedProduct()
 {
     return choice;
->>>>>>> vending-machine-state-pattern
 }

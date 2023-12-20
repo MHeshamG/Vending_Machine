@@ -70,22 +70,6 @@ namespace vendingmachine
          */
         void setInsertedMoneyAmount(double money);
 
-<<<<<<< HEAD
-            /**
-             * @brief Method to get the quantity of a specific product.
-             * @param productName The Product name to get its amount.
-             * @return  If the product exists, return value equals its amount otherwise the it
-             *          return value = -1; 
-            */
-            int getProductQuantity(std::string ProductName);
-
-            void setInsertedMoney(double money);
-        private:
-            double moneyAmount;
-            Product choice;
-            std::unique_ptr<VendingMachineState> currentState;
-            std::map<std::string,Product> availableProducts {};
-=======
         /**
          * @brief Method to get current amount of money inseted in the machine.
          * @return Amount of money inserted.
@@ -129,7 +113,6 @@ namespace vendingmachine
         std::map<std::string, Product> availableProducts{};
 
         std::pair<bool, Product> getProduct(std::string productName);
->>>>>>> vending-machine-state-pattern
     };
 }
 
