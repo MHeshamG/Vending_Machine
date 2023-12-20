@@ -1,6 +1,6 @@
 VendingMachineErrorCode IdleState::insertMoney(double money)
 {
-    vm->insertMoney(money);
+    vm->setInsertedMoney(money);
     std::cout<<"Money Inserted"<<std::endl;
 }
 
