@@ -24,3 +24,5 @@ target_include_directories(vending-machine-exe PUBLIC
                            "${CMAKE_CURRENT_SOURCE_DIR}/src" 
                            "${CMAKE_CURRENT_SOURCE_DIR}/src/states"
                           )
+
+set(CMAKE_BUILD_TYPE Debug)
