@@ -83,10 +83,11 @@ namespace vendingmachine
             */
             int getProductQuantity(std::string ProductName);
 
+            void setInsertedMoney(double money);
         private:
             double moneyAmount;
             Product choice;
-            VendingMachineStates state;
+            std::unique_ptr<VendingMachineState> currentState;
             std::map<std::string,Product> availableProducts {};
     };
 }

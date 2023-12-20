@@ -7,6 +7,7 @@ set(EXE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachine.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Product.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachineState.cpp"
     )
 
 add_executable(vending-machine-exe ${EXE_SOURCES})
