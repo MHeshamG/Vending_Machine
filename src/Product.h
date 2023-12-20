@@ -13,9 +13,9 @@ namespace vendingmachine
             Product(std::string name, double price, std::string details, int amount);
             ~Product() = default;
 
-            std::string getName();
-            double getPrice();
-            std::string getDetails();
+            std::string getName()const;
+            double getPrice()const;
+            std::string getDetails()const;
             int getAmount();  
         private:
             std::string name;
@@ -24,5 +24,4 @@ namespace vendingmachine
             int amount;
     };
 }
-
 #endif
