@@ -1,30 +1,43 @@
+#include <memory>
+#include <iostream>
+
 #include <VendingMachine.h>
 #include <Product.h>
+#include <IdleState.h>
+#include <ProductSelectedState.h>
+#include <HasMoneyState.h>
+#include <LockState.h>
 
-using vendingmachine::Product;
+
 using vendingmachine::VendingMachine;
+using vendingmachine::Product;
+using vendingmachine::IdleState;
+using vendingmachine::ProductSelectedState;
+using vendingmachine::HasMoneyState;
 
-int main()
-{
-    VendingMachine VM;
 
-    // Add Products to vending machine
-    Product p1{"Prod1", 10.0, "Prod1 details", 10};
-    VM.addProduct(p1);
+int main() {
+    std::shared_ptr<VendingMachine> VM = std::make_shared<VendingMachine>();
 
-    Product p2{"Prod2", 12.0, "Prod2 details", 20};
-    VM.addProduct(p2);
+    //Add Products to vending machine
+    Product p1{"Prod1",10.0,"Prod1 details"};
+    VM->addProduct(p1);
 
-    Product p3{"Prod3", 15.0, "Prod3 details", 30};
-    VM.addProduct(p3);
+    Product p2{"Prod2",12.0,"Prod2 details"};
+    VM->addProduct(p2);
 
-    VM.insertMoney(15.5);
-    // VM.selectProduct("Prod1", 5);
-    // VM.dispenseProduct();
+    Product p3{"Prod3",15.0,"Prod3 details"};
+    VM->addProduct(p3);
 
-    std::vector<std::string> productsVector = {"Prod1", "Prod2", "Prod3"};
-    std::vector<int> quantities = {7, 9, 10};
-    VM.selectProducts(productsVector, quantities);
-    VM.dispenseProducts();
+    VM->init(std::make_unique<IdleState>(VM));
+
+    VM->insertMoney(15.5);
+    VM->requestLock();
+    VM->requestUnLock();
+    VM->init(std::make_unique<ProductSelectedState>(VM));
+    VM->selectProduct("Prod1");
+   
+    VM->dispenseProduct();
+
     return 0;
 }

@@ -2,37 +2,18 @@
 #define VENDING_MACHINE_H
 
 #include <vector>
-#include <string>
 #include <map>
 #include <bits/stdc++.h>
 
-#include <Product.h>
+#include "Product.h"
+#include "VendingMachineState.h"
+#include "VendingMachineErrorCode.h"
 
 namespace vendingmachine
 {
     class VendingMachine
     {
     public:
-        enum class VendingMachineStates
-        {
-            IDLE,
-            HAS_MONEY,
-            PRODUCT_SELECTED
-        };
-
-        enum class VendingMachineErrorCode
-        {
-            SUCCESS,
-            INVALID_OPERATION,
-            MACHINE_HAS_NO_MONEY,
-            NOT_ENOUGH_MONEY,
-            NO_PRODUCT_SELECTED,
-            PRODUCT_ALREADY_ADDED,
-            PRODUCT_NOT_FOUND,
-            STOCK_IS_INSUFFICENT,
-            GENERAL_ERROR
-        };
-
         /**
          * @brief Default constructor for the VendingMachine class.
          * Initializes moneyAmount to 0 and sets the state to IDLE.
@@ -56,15 +37,13 @@ namespace vendingmachine
          * @param productName The name of the product to be selected.
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
-        VendingMachineErrorCode selectProduct(std::string productName, int quantity);
-        VendingMachineErrorCode selectProducts(const std::vector<std::string> &productNames, const std::vector<int> &quantities);
+        VendingMachineErrorCode selectProduct(std::string productName);
 
         /**
          * @brief Method to dispense the selected product.
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
         VendingMachineErrorCode dispenseProduct();
-        VendingMachineErrorCode dispenseProducts();
 
         /**
          * @brief Method to retrieve the list of available products.
@@ -78,16 +57,66 @@ namespace vendingmachine
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
         VendingMachineErrorCode addProduct(Product p);
-        // for finding index in a vector
 
-        int findIndex(const std::vector<std::string> &vec, const std::string &item);
+        /**
+         * @brief Method to init vending machine with the initial state.
+         * @param state Initial state.
+         */
+        void init(std::unique_ptr<VendingMachineState> state);
+
+        /**
+         * @brief Method to init vending machine with the initial state.
+         * @param state Initial state.
+         */
+        void setInsertedMoneyAmount(double money);
+
+        /**
+         * @brief Method to get current amount of money inseted in the machine.
+         * @return Amount of money inserted.
+         */
+        double getInsertedMoneyAmount();
+
+        /**
+         * @brief Method to change vending machine state.
+         * @param state current state.
+         */
+        void changeState(std::unique_ptr<VendingMachineState> state);
+
+        /**
+         * @brief Method to check if product is in inventory.
+         * @param productName product name.
+         */
+        bool hasProduct(std::string productName);
+
+        /**
+         * @brief Method to check if product is in inventory.
+         * @param productName The name of the product to check against.
+         */
+        bool hasEnoughMoneyForProduct(std::string productName);
+
+        /**
+         * @brief Method to set the selected product by the customer.
+         * @param productName The name of the product to be selected.
+         */
+        bool setSelectedProduct(std::string productName);
+
+        /**
+         * @brief Method to get the selected product by the customer.
+         * @param productName The name of the product selected.
+         */
+        Product &getSelectedProduct();
+
+        VendingMachineErrorCode requestLock();
+        VendingMachineErrorCode requestUnLock();
+
 
     private:
         double moneyAmount;
         Product choice;
-        VendingMachineStates state;
+        std::unique_ptr<VendingMachineState> currentState;
         std::map<std::string, Product> availableProducts{};
-        std::vector<Product> choices;
+
+        std::pair<bool, Product> getProduct(std::string productName);
     };
 }
 

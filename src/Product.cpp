@@ -1,33 +1,24 @@
 #include <Product.h>
+#include <iostream>
 
 using vendingmachine::Product;
 
-Product::Product(std::string name, double price, std::string details, int quantity)
-    : name(name), price(price), details(details), quantity(quantity)
+Product::Product(std::string name, double price, std::string details) : name{name}, price{price}, details{details}
 {
+
 }
 
-std::string Product::getName()
+std::string Product::getName() const
 {
     return name;
 }
 
-double Product::getPrice()
+double Product::getPrice() const
 {
     return price;
 }
 
-std::string Product::getDetails()
+std::string Product::getDetails() const
 {
     return details;
-}
-
-int Product::getQuantity()
-{
-    return quantity;
-}
-
-void Product::setQuantity(int newQuantity)
-{
-     quantity = newQuantity;
 }
