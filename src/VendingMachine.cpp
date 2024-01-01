@@ -1,8 +1,11 @@
 #include "VendingMachine.h"
+#include "VendingMachineState.h"
+
 
 using vendingmachine::VendingMachine;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 using Product = vendingmachine::Product;
+using VendingMachineState = vendingmachine::VendingMachineState;
 
 VendingMachine::VendingMachine() : moneyAmount{0}
 {
@@ -123,4 +126,12 @@ bool VendingMachine::setSelectedProduct(std::string productName)
 Product& VendingMachine::getSelectedProduct()
 {
     return choice;
+}
+
+std::unique_ptr<VendingMachineState> VendingMachine::getCurrentState()
+{
+    if(currentState != nullptr)
+        return std::move(currentState);
+    else
+        return nullptr;
 }

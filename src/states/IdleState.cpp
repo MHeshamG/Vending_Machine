@@ -9,7 +9,7 @@ using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 
 IdleState::IdleState(std::shared_ptr<VendingMachine> vm) : VendingMachineState(vm)
 {
-
+    /* nothing to do, only delegate the call to the parent class */
 }
 
 VendingMachineErrorCode IdleState::insertMoney(double money)

@@ -106,6 +106,13 @@ namespace vendingmachine
          */
         Product &getSelectedProduct();
 
+        /**
+         * @brief Method to get the current state of the machine.
+         * @param none.
+         * @return pointer to the state of the machine.
+         */
+        std::unique_ptr<VendingMachineState> getCurrentState();
+
     private:
         double moneyAmount;
         Product choice;

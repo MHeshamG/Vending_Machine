@@ -12,7 +12,9 @@ namespace vendingmachine
         NO_PRODUCT_SELECTED,
         PRODUCT_ALREADY_ADDED,
         PRODUCT_NOT_FOUND,
-        GENERAL_ERROR
+        GENERAL_ERROR,
+        MACHINE_LOCKED,
+        MACHINE_UNLOCKED
     };
 } // namespace vendingmachine
 
