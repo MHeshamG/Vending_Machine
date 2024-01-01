@@ -6,6 +6,10 @@ using vendingmachine::LockedState;
 using VendingMachineState = vendingmachine::VendingMachineState;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 
+LockedState::LockedState(std::shared_ptr<VendingMachine> vm) : VendingMachineState(vm)
+{
+
+}
 VendingMachineErrorCode LockedState::insertMoney(double money)
 {
     return VendingMachineErrorCode::MACHINE_LOCKED;

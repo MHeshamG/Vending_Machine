@@ -11,7 +11,7 @@
             "program": "/home/ahmedshindy/Vending_Machine/build/vending-machine-exe-debug",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "${fileDirname}",
+            "cwd": "/home/ahmedshindy/Vending_Machine",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

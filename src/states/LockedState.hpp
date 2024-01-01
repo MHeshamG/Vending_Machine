@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LOCKED_STATE_H
+#define LOCKED_STATE_H
 
 #include "VendingMachineState.h"
 #include "VendingMachine.h"
@@ -46,3 +47,5 @@ namespace vendingmachine
     std::unique_ptr<VendingMachineState> previousState;
     };
 }
+
+#endif

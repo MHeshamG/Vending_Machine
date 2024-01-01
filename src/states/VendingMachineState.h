@@ -44,7 +44,7 @@ namespace vendingmachine
          * @brief Method to lock the machine.
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
-        virtual VendingMachineErrorCode lockMachine() = 0;
+        virtual VendingMachineErrorCode lockMachine() =0 ;
         
 
     protected:
