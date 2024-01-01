@@ -20,12 +20,10 @@ VendingMachineErrorCode LockedState::dispenseProduct()
 {
     return VendingMachineErrorCode::MACHINE_LOCKED;
 }
-
-VendingMachineErrorCode LockedState::Lock(std::shared_ptr<VendingMachine>vm)
+VendingMachineErrorCode LockedState::lockMachine()
 {
     /* Store the old machine state */
     previousState = std::move(vm->getCurrentState());
-
     std::cout<<"Locking..."<<std::endl;
     std::unique_ptr<VendingMachineState> state_locked = std::make_unique<LockedState>(vm);
     vm->changeState(std::move(state_locked));

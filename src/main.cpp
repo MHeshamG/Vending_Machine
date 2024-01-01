@@ -25,6 +25,7 @@ int main() {
     VM->init(std::make_unique<IdleState>(VM));
     VM->insertMoney(15.5);
     VM->selectProduct("Prod1");
+    VM->dummyMachineLock();
     VM->dispenseProduct();
 
     return 0;

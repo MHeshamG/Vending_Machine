@@ -10,6 +10,7 @@ set(EXE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/VendingMachineState.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/IdleState.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/HasMoneyState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/LockedState.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/ProductSelectedState.cpp"
    )
 

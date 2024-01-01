@@ -30,6 +30,12 @@ namespace vendingmachine
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
         VendingMachineErrorCode dispenseProduct() override;
+
+        /**
+         * @brief Method to lock the machine.
+         * @return VendingMachineErrorCode representing the success or failure of the operation.
+         */
+        VendingMachineErrorCode lockMachine() override;
     };
 }
 #endif

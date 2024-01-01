@@ -45,3 +45,8 @@ VendingMachineErrorCode HasMoneyState::dispenseProduct()
 {
     return VendingMachineErrorCode::NO_PRODUCT_SELECTED;
 }
+
+VendingMachineErrorCode HasMoneyState::lockMachine() 
+{
+    return VendingMachineErrorCode::GENERAL_ERROR;
+}

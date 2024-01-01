@@ -40,6 +40,13 @@ namespace vendingmachine
          */
         virtual VendingMachineErrorCode dispenseProduct() = 0;
 
+        /**
+         * @brief Method to lock the machine.
+         * @return VendingMachineErrorCode representing the success or failure of the operation.
+         */
+        virtual VendingMachineErrorCode lockMachine() = 0;
+        
+
     protected:
         std::shared_ptr<VendingMachine> vm;
     };

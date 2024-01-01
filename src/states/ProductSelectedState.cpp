@@ -51,3 +51,8 @@ VendingMachineErrorCode ProductSelectedState::dispenseProduct()
 
     return VendingMachineErrorCode::SUCCESS;
 }
+
+VendingMachineErrorCode ProductSelectedState::lockMachine() 
+{
+    return VendingMachineErrorCode::GENERAL_ERROR;
+}

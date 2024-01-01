@@ -30,12 +30,15 @@ namespace vendingmachine
          */
         VendingMachineErrorCode dispenseProduct() override;
 
-
+        /**
+         * @brief Method to lock the machine.
+         * @return VendingMachineErrorCode representing the success or failure of the operation.
+         */
+        VendingMachineErrorCode lockMachine() override;
 
 
         /************ Custom functions *************/
         LockedState(std::shared_ptr<VendingMachine>vm);
-        VendingMachineErrorCode Lock(std::shared_ptr<VendingMachine>vm);
         VendingMachineErrorCode UnLock(std::shared_ptr<VendingMachine>vm);
 
 

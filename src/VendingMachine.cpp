@@ -1,5 +1,6 @@
 #include "VendingMachine.h"
 #include "VendingMachineState.h"
+#include "LockedState.hpp"
 
 
 using vendingmachine::VendingMachine;
@@ -134,4 +135,10 @@ std::unique_ptr<VendingMachineState> VendingMachine::getCurrentState()
         return std::move(currentState);
     else
         return nullptr;
+}
+
+void VendingMachine::dummyMachineLock()
+{
+    /* delegate the work to the VMState polymorphic class */
+    currentState->lockMachine();
 }

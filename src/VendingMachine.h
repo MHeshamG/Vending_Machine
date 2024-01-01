@@ -112,6 +112,11 @@ namespace vendingmachine
          * @return pointer to the state of the machine.
          */
         std::unique_ptr<VendingMachineState> getCurrentState();
+        /**
+         * @brief Method to lock the machine.
+         * @param none.
+         */
+        void dummyMachineLock();
 
     private:
         double moneyAmount;

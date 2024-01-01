@@ -32,3 +32,9 @@ VendingMachineErrorCode IdleState::dispenseProduct()
 {
     return VendingMachineErrorCode::MACHINE_HAS_NO_MONEY;
 }
+
+
+VendingMachineErrorCode IdleState::lockMachine() 
+{
+    return VendingMachineErrorCode::GENERAL_ERROR;
+}
