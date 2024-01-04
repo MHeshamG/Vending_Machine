@@ -30,8 +30,10 @@ int main() {
     VM->insertMoney(35.5);
     VM->selectProduct("Prod1");
     VM->selectProduct("Prod1");
+    VM->lock();
     VM->selectProduct("Prod1");
     VM->selectProduct("Prod1");
+    VM->unlock();
     VM->selectProduct("Prod1");
     VM->selectProduct("Prod1");
     VM->dispenseProduct();

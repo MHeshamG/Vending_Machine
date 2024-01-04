@@ -2,6 +2,7 @@
 
 using vendingmachine::VendingMachine;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
+using VendingMachineState = vendingmachine::VendingMachineState;
 using Product = vendingmachine::Product;
 
 VendingMachine::VendingMachine() : moneyAmount{0}
@@ -79,8 +80,19 @@ double VendingMachine::getInsertedMoneyAmount()
 
 void VendingMachine::changeState(std::unique_ptr<VendingMachineState> state)
 {
+    previousState = std::move(currentState);
     currentState = std::move(state);
 }
+
+std::unique_ptr<VendingMachineState> VendingMachine::getPreviousState()
+{
+    return std::move(previousState);
+}
+
+std::unique_ptr<VendingMachineState> VendingMachine::getCurrentState()
+{
+    return std::move(currentState);
+}  
 
 bool VendingMachine::hasProduct(std::string productName)
 {
@@ -142,4 +154,18 @@ double VendingMachine::getCartPrice()
 const std::map<std::string, int> &VendingMachine::getCart()
 {
     return cart;
+}
+
+void VendingMachine::lock()
+{
+    if(currentState != nullptr){
+        currentState->lock();
+    }
+}
+
+void VendingMachine::unlock()
+{
+    if(currentState != nullptr){
+        currentState->unlock();
+    }
 }

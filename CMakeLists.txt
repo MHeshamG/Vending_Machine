@@ -11,6 +11,7 @@ set(EXE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/IdleState.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/HasMoneyState.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/ProductSelectedState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/LockState.cpp"
    )
 
 add_executable(vending-machine-exe ${EXE_SOURCES})

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <iostream>
 
 #include "VendingMachineErrorCode.h"
 
@@ -39,6 +40,16 @@ namespace vendingmachine
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
         virtual VendingMachineErrorCode dispenseProduct() = 0;
+
+        /**
+         * @brief Method to lock the vending machine.
+         */
+        virtual void lock();
+
+        /**
+         * @brief Method to unlock the vending machine.
+         */
+        virtual void unlock();
 
     protected:
         std::shared_ptr<VendingMachine> vm;

@@ -83,6 +83,18 @@ namespace vendingmachine
         void changeState(std::unique_ptr<VendingMachineState> state);
 
         /**
+         * @brief Method to get previous state.
+         * @return Previous state.
+         */
+        std::unique_ptr<VendingMachineState> getPreviousState();
+
+        /**
+         * @brief Method to get current state.
+         * @return Current state.
+         */
+        std::unique_ptr<VendingMachineState> getCurrentState();
+
+        /**
          * @brief Method to get product from inventory.
          * @param productName product name.
          * @return Product object.
@@ -125,12 +137,16 @@ namespace vendingmachine
          */
         const std::map<std::string, int>& getCart();
 
+        void lock();
+        void unlock();
+
 
     private:
         double moneyAmount;
         double cartPrice;
         std::map<std::string, int> cart;
         std::unique_ptr<VendingMachineState> currentState;
+        std::unique_ptr<VendingMachineState> previousState;
         std::map<std::string, std::shared_ptr<Product>> availableProducts{};
     };
 }
