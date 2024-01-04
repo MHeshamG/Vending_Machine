@@ -13,17 +13,39 @@ int main() {
     std::shared_ptr<VendingMachine> VM = std::make_shared<VendingMachine>();
 
     //Add Products to vending machine
-    Product p1{"Prod1",10.0,"Prod1 details"};
+    auto p1 = std::make_shared<Product>("Prod1",10.0,"Prod1 details");
+    p1->setQuantity(5);
     VM->addProduct(p1);
 
-    Product p2{"Prod2",12.0,"Prod2 details"};
+    auto p2 = std::make_shared<Product>("Prod2",12.0,"Prod2 details");
+    p2->setQuantity(10);
     VM->addProduct(p2);
 
-    Product p3{"Prod3",15.0,"Prod3 details"};
+    auto p3 = std::make_shared<Product>("Prod3",15.0,"Prod3 details");
+    p3->setQuantity(15);
     VM->addProduct(p3);
 
     VM->init(std::make_unique<IdleState>(VM));
-    VM->insertMoney(15.5);
+
+    VM->insertMoney(35.5);
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->dispenseProduct();
+
+    VM->insertMoney(1000);
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod2");
+    VM->selectProduct("Prod2");
+    VM->selectProduct("Prod3");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
+    VM->selectProduct("Prod1");
     VM->selectProduct("Prod1");
     VM->dispenseProduct();
 

@@ -21,10 +21,16 @@ VendingMachineErrorCode ProductSelectedState::selectProduct(std::string productN
     {
         if (vm->hasEnoughMoneyForProduct(productName))
         {
-            vm->setSelectedProduct(productName);
+            if(vm->addToCart(productName)){
+                std::cout<<"Product added to cart: "<<productName<<std::endl;
+            }
+            else{
+                std::cout<<"Product not available: "<<productName<<std::endl;
+            }
         }
         else
         {
+            std::cout<<"Not enough money for product "<<productName<<std::endl;
             return VendingMachineErrorCode::NOT_ENOUGH_MONEY;
         }
     }
@@ -38,13 +44,21 @@ VendingMachineErrorCode ProductSelectedState::selectProduct(std::string productN
 
 VendingMachineErrorCode ProductSelectedState::dispenseProduct()
 {
-    vm->setInsertedMoneyAmount(vm->getInsertedMoneyAmount() - vm->getSelectedProduct().getPrice());
+    vm->setInsertedMoneyAmount(vm->getInsertedMoneyAmount() - vm->getCartPrice());
     if (vm->getInsertedMoneyAmount() > 0.0)
     {
         std::cout << "Returning change: " << vm->getInsertedMoneyAmount() << std::endl;
         vm->setInsertedMoneyAmount(0.0);
     }
-    std::cout << "Dispensing product: " << vm->getSelectedProduct().getName() << std::endl;
+
+    for (const auto &[name, quantity] : vm->getCart())
+    {
+        auto product = vm->getProduct(name);
+        std::cout << "Dispensing product: " << product->getName() << " with quantity: "<<quantity<<std::endl;
+        product->decreaseQuantity(quantity);
+    }
+
+    vm->clearCart();
 
     std::unique_ptr<VendingMachineState> idleState = std::make_unique<IdleState>(vm);
     vm->changeState(std::move(idleState));

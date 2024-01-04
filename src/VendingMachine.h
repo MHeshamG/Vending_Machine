@@ -49,14 +49,14 @@ namespace vendingmachine
          * @brief Method to retrieve the list of available products.
          * @return A vector of Product objects representing the available products.
          */
-        std::vector<Product> getProductsList();
+        std::vector<std::shared_ptr<Product>> getProductsList();
 
         /**
          * @brief Method to add a product to the vending machine's inventory.
          * @param product The Product object to be added.
          * @return VendingMachineErrorCode representing the success or failure of the operation.
          */
-        VendingMachineErrorCode addProduct(Product p);
+        VendingMachineErrorCode addProduct(std::shared_ptr<Product> p);
 
         /**
          * @brief Method to init vending machine with the initial state.
@@ -83,8 +83,15 @@ namespace vendingmachine
         void changeState(std::unique_ptr<VendingMachineState> state);
 
         /**
-         * @brief Method to check if product is in inventory.
+         * @brief Method to get product from inventory.
          * @param productName product name.
+         * @return Product object.
+         */
+        std::shared_ptr<Product> getProduct(std::string productName);
+
+        /**
+         * @brief Method to check if product is in inventory.
+         * @param productName The name of the product to be selected
          */
         bool hasProduct(std::string productName);
 
@@ -95,24 +102,36 @@ namespace vendingmachine
         bool hasEnoughMoneyForProduct(std::string productName);
 
         /**
-         * @brief Method to set the selected product by the customer.
+         * @brief Method to add the selected product by the customer to the cart.
          * @param productName The name of the product to be selected.
+         * @return true if the product was added to the cart, false otherwise.
          */
-        bool setSelectedProduct(std::string productName);
+        bool addToCart(std::string productName);
+
+         /**
+         * @brief Method to clear the cart.
+         */
+        void clearCart();
 
         /**
-         * @brief Method to get the selected product by the customer.
-         * @param productName The name of the product selected.
+         * @brief Method to get the total price of products in cart.
+         * @return The total price of products in cart.
          */
-        Product &getSelectedProduct();
+        double getCartPrice();
+
+        /**
+         * @brief Method to get the cart.
+         * @return The cart.
+         */
+        const std::map<std::string, int>& getCart();
+
 
     private:
         double moneyAmount;
-        Product choice;
+        double cartPrice;
+        std::map<std::string, int> cart;
         std::unique_ptr<VendingMachineState> currentState;
-        std::map<std::string, Product> availableProducts{};
-
-        std::pair<bool, Product> getProduct(std::string productName);
+        std::map<std::string, std::shared_ptr<Product>> availableProducts{};
     };
 }
 

@@ -23,10 +23,14 @@ VendingMachineErrorCode HasMoneyState::selectProduct(std::string productName)
 {
     if(vm->hasProduct(productName)){
         if(vm->hasEnoughMoneyForProduct(productName)){
-            vm->setSelectedProduct(productName);
-            std::cout<<"Product selected: "<<productName<<std::endl;
-            std::unique_ptr<VendingMachineState> productSelectedState = std::make_unique<ProductSelectedState>(vm);
-            vm->changeState(std::move(productSelectedState));
+            if(vm->addToCart(productName)){
+                std::cout<<"Product added to cart: "<<productName<<std::endl;
+                std::unique_ptr<VendingMachineState> productSelectedState = std::make_unique<ProductSelectedState>(vm);
+                vm->changeState(std::move(productSelectedState));
+            }
+            else{
+                std::cout<<"Product not available: "<<productName<<std::endl;
+            }
         }
         else{
             std::cout<<"NOT_ENOUGH_MONEY "<<std::endl;
@@ -34,7 +38,7 @@ VendingMachineErrorCode HasMoneyState::selectProduct(std::string productName)
         }
     }
     else{
-        std::cout<<"PRODUCT_NOT_FOUND "<<std::endl;
+        std::cout<<"Product not available "<<productName<<std::endl;
         return VendingMachineErrorCode::PRODUCT_NOT_FOUND;
     }
 

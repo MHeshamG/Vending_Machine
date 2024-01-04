@@ -40,9 +40,9 @@ VendingMachineErrorCode VendingMachine::dispenseProduct()
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
-std::vector<Product> VendingMachine::getProductsList()
+std::vector<std::shared_ptr<Product>> VendingMachine::getProductsList()
 {
-    std::vector<Product> availableProductsVector;
+    std::vector<std::shared_ptr<Product>> availableProductsVector;
     for (const auto &[name, product] : availableProducts)
     {
         availableProductsVector.push_back(product);
@@ -50,17 +50,17 @@ std::vector<Product> VendingMachine::getProductsList()
     return availableProductsVector;
 }
 
-VendingMachineErrorCode VendingMachine::addProduct(Product product)
+VendingMachineErrorCode VendingMachine::addProduct(std::shared_ptr<Product> product)
 {
-    const auto &it = availableProducts.find(product.getName());
+    const auto &it = availableProducts.find(product->getName());
     if (it == availableProducts.end())
     {
-        const auto &it = availableProducts.insert({product.getName(), product});
-        std::cout << "Product added successfully " << product.getName() << std::endl;
+        const auto &it = availableProducts.insert({product->getName(), product});
+        std::cout << "Product added successfully " << product->getName() << std::endl;
     }
     else
     {
-        std::cout << "Product already added: " << product.getName() << std::endl;
+        std::cout << "Product already added: " << product->getName() << std::endl;
         return VendingMachineErrorCode::PRODUCT_ALREADY_ADDED;
     }
 
@@ -85,42 +85,61 @@ void VendingMachine::changeState(std::unique_ptr<VendingMachineState> state)
 bool VendingMachine::hasProduct(std::string productName)
 {
     const auto &it = availableProducts.find(productName);
-    return it != availableProducts.end();
+    return it != availableProducts.end() && it->second->getQuantity() > 0;
 }
 
-std::pair<bool, Product> VendingMachine::getProduct(std::string productName)
+std::shared_ptr<Product> VendingMachine::getProduct(std::string productName)
 {
-    Product product;
     const auto &it = availableProducts.find(productName);
     if (it != availableProducts.end())
     {
-        return {true, it->second};
+        return it->second;
     }
-    return {false, product};
+
+    return nullptr;
 }
 
 bool VendingMachine::hasEnoughMoneyForProduct(std::string productName)
 {
-    auto [found, product] = getProduct(productName);
-    if (found)
+    auto product = getProduct(productName);
+    if (product != nullptr)
     {
-        return moneyAmount >= product.getPrice();
+        return moneyAmount - cartPrice >= product->getPrice();
     }
     return false;
 }
 
-bool VendingMachine::setSelectedProduct(std::string productName)
+bool VendingMachine::addToCart(std::string productName)
 {
-    auto [found, product] = getProduct(productName);
-    if (found)
-    {
-        choice = product;
-        return true;
+    auto product = getProduct(productName);
+    if (product == nullptr) {
+        return false;
     }
-    return false;
+
+    int currentCartQuantity = cart.count(productName) ? cart[productName] : 0;
+    if (product->getQuantity() <= currentCartQuantity) {
+        return false;
+    }
+
+    cart[productName] = currentCartQuantity + 1;
+
+    cartPrice += product->getPrice();
+
+    return true;
 }
 
-Product& VendingMachine::getSelectedProduct()
+void VendingMachine::clearCart()
 {
-    return choice;
+    cart.clear();
+    cartPrice = 0.0;
+}
+
+double VendingMachine::getCartPrice()
+{
+    return cartPrice;
+}
+
+const std::map<std::string, int> &VendingMachine::getCart()
+{
+    return cart;
 }
