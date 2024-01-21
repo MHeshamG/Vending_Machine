@@ -5,12 +5,13 @@
 #include <Product.h>
 #include <IdleState.h>
 
+using vendingmachine::IVendingMachine;
 using vendingmachine::VendingMachine;
 using vendingmachine::Product;
 using vendingmachine::IdleState;
 
 int main() {
-    std::shared_ptr<VendingMachine> VM = std::make_shared<VendingMachine>();
+    std::shared_ptr<IVendingMachine> VM = std::make_shared<VendingMachine>();
 
     //Add Products to vending machine
     auto p1 = std::make_shared<Product>("Prod1",10.0,"Prod1 details");

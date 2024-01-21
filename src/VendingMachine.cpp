@@ -10,33 +10,33 @@ VendingMachine::VendingMachine() : moneyAmount{0}
     std::cout << "Vending Machine starting..." << std::endl;
 }
 
-void VendingMachine::init(std::unique_ptr<VendingMachineState> state)
+void VendingMachine::init(std::shared_ptr<VendingMachineState> state)
 {
     if(state != nullptr){
-        currentState = std::move(state);
+        currentState = state;
     }
 }
 
 VendingMachineErrorCode VendingMachine::insertMoney(double money)
 {
-    if(currentState != nullptr){
-        return currentState->insertMoney(money);
+    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
+        return currentStatePtr->insertMoney(money);
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 VendingMachineErrorCode VendingMachine::selectProduct(std::string productName)
 {
-    if(currentState != nullptr){
-        return currentState->selectProduct(productName);
+    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
+        return currentStatePtr->selectProduct(productName);
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 VendingMachineErrorCode VendingMachine::dispenseProduct()
 {
-    if(currentState != nullptr){
-        return currentState->dispenseProduct();
+    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
+        return currentStatePtr->dispenseProduct();
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
@@ -78,21 +78,17 @@ double VendingMachine::getInsertedMoneyAmount()
     return moneyAmount;
 }
 
-void VendingMachine::changeState(std::unique_ptr<VendingMachineState> state)
+void VendingMachine::changeState(std::shared_ptr<VendingMachineState> state)
 {
-    previousState = std::move(currentState);
-    currentState = std::move(state);
+    previousState = currentState;
+    currentState = state;
 }
 
-std::unique_ptr<VendingMachineState> VendingMachine::getPreviousState()
+std::shared_ptr<VendingMachineState> VendingMachine::getPreviousState()
 {
-    return std::move(previousState);
+    std::shared_ptr<VendingMachineState> previousStatePtr = previousState.lock();
+    return previousStatePtr;
 }
-
-std::unique_ptr<VendingMachineState> VendingMachine::getCurrentState()
-{
-    return std::move(currentState);
-}  
 
 bool VendingMachine::hasProduct(std::string productName)
 {
@@ -151,21 +147,21 @@ double VendingMachine::getCartPrice()
     return cartPrice;
 }
 
-const std::map<std::string, int> &VendingMachine::getCart()
+const std::map<std::string, int> VendingMachine::getCart()
 {
     return cart;
 }
 
 void VendingMachine::lock()
 {
-    if(currentState != nullptr){
-        currentState->lock();
+    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
+        currentStatePtr->lock();
     }
 }
 
 void VendingMachine::unlock()
 {
-    if(currentState != nullptr){
-        currentState->unlock();
+    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
+        currentStatePtr->unlock();
     }
 }

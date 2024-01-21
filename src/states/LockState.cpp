@@ -7,7 +7,7 @@ using vendingmachine::LockState;
 using VendingMachineState = vendingmachine::VendingMachineState;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 
-LockState::LockState(std::shared_ptr<VendingMachine> vm) : VendingMachineState(vm)
+LockState::LockState(std::shared_ptr<IVendingMachine> vm) : VendingMachineState(vm)
 {
 
 }

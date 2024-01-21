@@ -2,15 +2,12 @@
 #define HAS_MONEY_STATE_H
 
 #include "VendingMachineState.h"
-#include "VendingMachine.h"
-#include "VendingMachineErrorCode.h"
-
 namespace vendingmachine
 {
     class HasMoneyState : public VendingMachineState
     {
     public:
-        HasMoneyState(std::shared_ptr<VendingMachine> vm);
+        HasMoneyState(std::shared_ptr<IVendingMachine> vm);
 
         /**
          * @brief Method to insert money into the vending machine.

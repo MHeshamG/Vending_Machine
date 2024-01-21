@@ -5,11 +5,12 @@
 #include <memory>
 #include <iostream>
 
+#include "IVendingMachine.h"
 #include "VendingMachineErrorCode.h"
 
 namespace vendingmachine
 {
-    class VendingMachine;
+    class IVendingMachine;
 
     class VendingMachineState
     {
@@ -19,7 +20,7 @@ namespace vendingmachine
          * @param vm vending machine object ptr.
          * Initializes vendingmachine ptr property to passed vm ptr.
          */
-        VendingMachineState(std::shared_ptr<VendingMachine> vm);
+        VendingMachineState(std::shared_ptr<IVendingMachine> vm);
         virtual ~VendingMachineState() = default;
         /**
          * @brief Method to insert money into the vending machine.
@@ -52,7 +53,7 @@ namespace vendingmachine
         virtual void unlock();
 
     protected:
-        std::shared_ptr<VendingMachine> vm;
+        std::shared_ptr<IVendingMachine> vm;
     };
 
 } // namespace vendingMachine

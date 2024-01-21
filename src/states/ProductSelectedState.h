@@ -2,15 +2,12 @@
 #define PRODUCT_SELECTED_STATE_H
 
 #include "VendingMachineState.h"
-#include "VendingMachine.h"
-#include "VendingMachineErrorCode.h"
-
 namespace vendingmachine
 {
     class ProductSelectedState : public VendingMachineState
     {
     public:
-        ProductSelectedState(std::shared_ptr<VendingMachine> vm);
+        ProductSelectedState(std::shared_ptr<IVendingMachine> vm);
 
         /**
          * @brief Method to insert money into the vending machine.

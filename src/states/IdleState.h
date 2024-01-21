@@ -2,15 +2,12 @@
 #define IDLE_STATE_H
 
 #include "VendingMachineState.h"
-#include "VendingMachine.h"
-#include "VendingMachineErrorCode.h"
-
 namespace vendingmachine
 {
     class IdleState : public VendingMachineState
     {
     public:
-        IdleState(std::shared_ptr<VendingMachine> vm);
+        IdleState(std::shared_ptr<IVendingMachine> vm);
         /**
          * @brief Method to insert money into the vending machine.
          * @param money The amount of money to be inserted.

@@ -5,7 +5,7 @@ using vendingmachine::ProductSelectedState;
 using VendingMachineState = vendingmachine::VendingMachineState;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 
-ProductSelectedState::ProductSelectedState(std::shared_ptr<VendingMachine> vm) : VendingMachineState(vm)
+ProductSelectedState::ProductSelectedState(std::shared_ptr<IVendingMachine> vm) : VendingMachineState(vm)
 {
 
 }
@@ -60,7 +60,7 @@ VendingMachineErrorCode ProductSelectedState::dispenseProduct()
 
     vm->clearCart();
 
-    std::unique_ptr<VendingMachineState> idleState = std::make_unique<IdleState>(vm);
+    std::shared_ptr<VendingMachineState> idleState = std::make_unique<IdleState>(vm);
     vm->changeState(std::move(idleState));
 
     return VendingMachineErrorCode::SUCCESS;

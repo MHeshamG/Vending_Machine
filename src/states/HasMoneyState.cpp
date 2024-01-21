@@ -5,7 +5,7 @@ using vendingmachine::HasMoneyState;
 using VendingMachineState = vendingmachine::VendingMachineState;
 using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 
-HasMoneyState::HasMoneyState(std::shared_ptr<VendingMachine> vm) : VendingMachineState(vm)
+HasMoneyState::HasMoneyState(std::shared_ptr<IVendingMachine> vm) : VendingMachineState(vm)
 {
 
 }
@@ -25,7 +25,7 @@ VendingMachineErrorCode HasMoneyState::selectProduct(std::string productName)
         if(vm->hasEnoughMoneyForProduct(productName)){
             if(vm->addToCart(productName)){
                 std::cout<<"Product added to cart: "<<productName<<std::endl;
-                std::unique_ptr<VendingMachineState> productSelectedState = std::make_unique<ProductSelectedState>(vm);
+                std::shared_ptr<VendingMachineState> productSelectedState = std::make_unique<ProductSelectedState>(vm);
                 vm->changeState(std::move(productSelectedState));
             }
             else{

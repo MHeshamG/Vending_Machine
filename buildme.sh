@@ -16,7 +16,7 @@ cd "$BUILD_DIR" || exit
 
 # Run CMake to generate build files using Ninja
 yellow_log "[Step 1] Running CMake to generate build files using Ninja..."
-if cmake .. -G Ninja; then
+if cmake .. -GNinja -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release; then
     green_log "CMake configuration completed successfully."
 else
     red_log_and_exit "CMake configuration failed."
