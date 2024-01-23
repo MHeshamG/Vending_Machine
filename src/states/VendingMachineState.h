@@ -53,7 +53,7 @@ namespace vendingmachine
         virtual void unlock();
 
     protected:
-        std::shared_ptr<IVendingMachine> vm;
+        std::weak_ptr<IVendingMachine> vm;
     };
 
 } // namespace vendingMachine

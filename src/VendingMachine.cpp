@@ -5,7 +5,7 @@ using VendingMachineErrorCode = vendingmachine::VendingMachineErrorCode;
 using VendingMachineState = vendingmachine::VendingMachineState;
 using Product = vendingmachine::Product;
 
-VendingMachine::VendingMachine() : moneyAmount{0}
+VendingMachine::VendingMachine() : moneyAmount{0}, cartPrice{0}
 {
     std::cout << "Vending Machine starting..." << std::endl;
 }
@@ -19,24 +19,24 @@ void VendingMachine::init(std::shared_ptr<VendingMachineState> state)
 
 VendingMachineErrorCode VendingMachine::insertMoney(double money)
 {
-    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
-        return currentStatePtr->insertMoney(money);
+    if(currentState != nullptr){
+        return currentState->insertMoney(money);
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 VendingMachineErrorCode VendingMachine::selectProduct(std::string productName)
 {
-    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
-        return currentStatePtr->selectProduct(productName);
+    if(currentState != nullptr){
+        return currentState->selectProduct(productName);
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
 
 VendingMachineErrorCode VendingMachine::dispenseProduct()
 {
-    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
-        return currentStatePtr->dispenseProduct();
+    if(currentState != nullptr){
+        return currentState->dispenseProduct();
     }
     return VendingMachineErrorCode::INVALID_OPERATION;
 }
@@ -86,8 +86,7 @@ void VendingMachine::changeState(std::shared_ptr<VendingMachineState> state)
 
 std::shared_ptr<VendingMachineState> VendingMachine::getPreviousState()
 {
-    std::shared_ptr<VendingMachineState> previousStatePtr = previousState.lock();
-    return previousStatePtr;
+    return previousState;
 }
 
 bool VendingMachine::hasProduct(std::string productName)
@@ -154,14 +153,14 @@ const std::map<std::string, int> VendingMachine::getCart()
 
 void VendingMachine::lock()
 {
-    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
-        currentStatePtr->lock();
+    if(currentState != nullptr){
+        currentState->lock();
     }
 }
 
 void VendingMachine::unlock()
 {
-    if(std::shared_ptr<VendingMachineState> currentStatePtr = currentState.lock()){
-        currentStatePtr->unlock();
+    if(currentState != nullptr){
+        currentState->unlock();
     }
 }

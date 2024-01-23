@@ -17,11 +17,12 @@ VendingMachineErrorCode ProductSelectedState::insertMoney(double money)
 
 VendingMachineErrorCode ProductSelectedState::selectProduct(std::string productName)
 {
-    if (vm->hasProduct(productName))
+    std::shared_ptr<IVendingMachine> vmPtr = vm.lock();
+    if (vmPtr->hasProduct(productName))
     {
-        if (vm->hasEnoughMoneyForProduct(productName))
+        if (vmPtr->hasEnoughMoneyForProduct(productName))
         {
-            if(vm->addToCart(productName)){
+            if(vmPtr->addToCart(productName)){
                 std::cout<<"Product added to cart: "<<productName<<std::endl;
             }
             else{
@@ -44,24 +45,25 @@ VendingMachineErrorCode ProductSelectedState::selectProduct(std::string productN
 
 VendingMachineErrorCode ProductSelectedState::dispenseProduct()
 {
-    vm->setInsertedMoneyAmount(vm->getInsertedMoneyAmount() - vm->getCartPrice());
-    if (vm->getInsertedMoneyAmount() > 0.0)
+    std::shared_ptr<IVendingMachine> vmPtr = vm.lock();
+    vmPtr->setInsertedMoneyAmount(vmPtr->getInsertedMoneyAmount() - vmPtr->getCartPrice());
+    if (vmPtr->getInsertedMoneyAmount() > 0.0)
     {
-        std::cout << "Returning change: " << vm->getInsertedMoneyAmount() << std::endl;
-        vm->setInsertedMoneyAmount(0.0);
+        std::cout << "Returning change: " << vmPtr->getInsertedMoneyAmount() << std::endl;
+        vmPtr->setInsertedMoneyAmount(0.0);
     }
 
-    for (const auto &[name, quantity] : vm->getCart())
+    for (const auto &[name, quantity] : vmPtr->getCart())
     {
-        auto product = vm->getProduct(name);
+        auto product = vmPtr->getProduct(name);
         std::cout << "Dispensing product: " << product->getName() << " with quantity: "<<quantity<<std::endl;
         product->decreaseQuantity(quantity);
     }
 
-    vm->clearCart();
+    vmPtr->clearCart();
 
-    std::shared_ptr<VendingMachineState> idleState = std::make_unique<IdleState>(vm);
-    vm->changeState(std::move(idleState));
+    std::shared_ptr<VendingMachineState> idleState = std::make_shared<IdleState>(vmPtr);
+    vmPtr->changeState(idleState);
 
     return VendingMachineErrorCode::SUCCESS;
 }

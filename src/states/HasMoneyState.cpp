@@ -12,8 +12,9 @@ HasMoneyState::HasMoneyState(std::shared_ptr<IVendingMachine> vm) : VendingMachi
 
 VendingMachineErrorCode HasMoneyState::insertMoney(double money)
 {
-    double totalInsertedMoney = vm->getInsertedMoneyAmount() + money;
-    vm->setInsertedMoneyAmount(totalInsertedMoney);
+    std::shared_ptr<IVendingMachine> vmPtr = vm.lock();
+    double totalInsertedMoney = vmPtr->getInsertedMoneyAmount() + money;
+    vmPtr->setInsertedMoneyAmount(totalInsertedMoney);
     std::cout<< "Money inserted: "<<totalInsertedMoney<<std::endl;
 
     return VendingMachineErrorCode::SUCCESS;
@@ -21,19 +22,20 @@ VendingMachineErrorCode HasMoneyState::insertMoney(double money)
 
 VendingMachineErrorCode HasMoneyState::selectProduct(std::string productName)
 {
-    if(vm->hasProduct(productName)){
-        if(vm->hasEnoughMoneyForProduct(productName)){
-            if(vm->addToCart(productName)){
+    std::shared_ptr<IVendingMachine> vmPtr = vm.lock();
+    if(vmPtr->hasProduct(productName)){
+        if(vmPtr->hasEnoughMoneyForProduct(productName)){
+            if(vmPtr->addToCart(productName)){
                 std::cout<<"Product added to cart: "<<productName<<std::endl;
-                std::shared_ptr<VendingMachineState> productSelectedState = std::make_unique<ProductSelectedState>(vm);
-                vm->changeState(std::move(productSelectedState));
+                std::shared_ptr<VendingMachineState> productSelectedState = std::make_shared<ProductSelectedState>(vmPtr);
+                vmPtr->changeState(productSelectedState);
             }
             else{
                 std::cout<<"Product not available: "<<productName<<std::endl;
             }
         }
         else{
-            std::cout<<"NOT_ENOUGH_MONEY "<<std::endl;
+            std::cout<<"Not enough money for product"<<std::endl;
             return VendingMachineErrorCode::NOT_ENOUGH_MONEY;
         }
     }

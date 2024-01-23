@@ -21,7 +21,7 @@ protected:
 
     void SetUp() override {
         mockVM = std::make_shared<MockVendingMachine>();
-        productSelectedState = std::make_unique<ProductSelectedState>(mockVM);
+        productSelectedState = std::make_shared<ProductSelectedState>(mockVM);
     }
 };
 

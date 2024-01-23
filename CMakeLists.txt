@@ -41,6 +41,8 @@ set(TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test/IdleStateTest.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/test/HasMoneyStateTest.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/test/ProductSelectedStateTest.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test/LockStateTest.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test/VendingMachineIntegrationTest.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/test/main.cpp"
 )
 

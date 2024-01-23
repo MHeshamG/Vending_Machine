@@ -2,11 +2,13 @@
 #include <iostream>
 
 #include <VendingMachine.h>
+#include "VendingMachineState.h"
 #include <Product.h>
 #include <IdleState.h>
 
 using vendingmachine::IVendingMachine;
 using vendingmachine::VendingMachine;
+using vendingmachine::VendingMachineState;
 using vendingmachine::Product;
 using vendingmachine::IdleState;
 
@@ -26,7 +28,8 @@ int main() {
     p3->setQuantity(15);
     VM->addProduct(p3);
 
-    VM->init(std::make_unique<IdleState>(VM));
+    std::shared_ptr<VendingMachineState> state = std::make_shared<IdleState>(VM);
+    VM->init(state);
 
     VM->insertMoney(35.5);
     VM->selectProduct("Prod1");

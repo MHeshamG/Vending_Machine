@@ -19,7 +19,7 @@ protected:
 
     void SetUp() override {
         mockVM = std::make_shared<MockVendingMachine>();
-        hasMoneyState = std::make_unique<HasMoneyState>(mockVM);
+        hasMoneyState = std::make_shared<HasMoneyState>(mockVM);
     }
 };
 

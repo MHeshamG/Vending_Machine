@@ -8,7 +8,9 @@ class MockState : public VendingMachineState
     MockState(std::shared_ptr<IVendingMachine> vm) : VendingMachineState(vm){}
     MOCK_METHOD(VendingMachineErrorCode, insertMoney, (double money), (override));
     MOCK_METHOD(VendingMachineErrorCode, selectProduct, (std::string productName), (override));
-    MOCK_METHOD(VendingMachineErrorCode, dispenseProduct, (), (override));  
+    MOCK_METHOD(VendingMachineErrorCode, dispenseProduct, (), (override));
+    MOCK_METHOD(void, lock, (), (override));
+    MOCK_METHOD(void, unlock, (), (override));  
 };
 
 }

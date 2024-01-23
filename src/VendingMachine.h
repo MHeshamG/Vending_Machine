@@ -135,8 +135,8 @@ namespace vendingmachine
         double moneyAmount;
         double cartPrice;
         std::map<std::string, int> cart;
-        std::weak_ptr<VendingMachineState> currentState;
-        std::weak_ptr<VendingMachineState> previousState;
+        std::shared_ptr<VendingMachineState> currentState;
+        std::shared_ptr<VendingMachineState> previousState;
         std::map<std::string, std::shared_ptr<Product>> availableProducts{};
     };
 }

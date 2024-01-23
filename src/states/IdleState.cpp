@@ -14,11 +14,12 @@ IdleState::IdleState(std::shared_ptr<IVendingMachine> vm) : VendingMachineState(
 
 VendingMachineErrorCode IdleState::insertMoney(double money)
 {
-    double totalInsertedMoney = vm->getInsertedMoneyAmount() + money;
-    vm->setInsertedMoneyAmount(totalInsertedMoney);
+    std::shared_ptr<IVendingMachine> vmPtr = vm.lock();
+    double totalInsertedMoney = vmPtr->getInsertedMoneyAmount() + money;
+    vmPtr->setInsertedMoneyAmount(totalInsertedMoney);
     std::cout<< "Money inserted: "<<totalInsertedMoney<<std::endl;
-    std::shared_ptr<VendingMachineState> hasMoneyState = std::make_unique<HasMoneyState>(vm);
-    vm->changeState(std::move(hasMoneyState));
+    std::shared_ptr<VendingMachineState> hasMoneyState = std::make_shared<HasMoneyState>(vmPtr);
+    vmPtr->changeState(hasMoneyState);
 
     return VendingMachineErrorCode::SUCCESS;
 }

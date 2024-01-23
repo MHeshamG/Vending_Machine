@@ -17,7 +17,7 @@ protected:
 
     void SetUp() override {
         mockVM = std::make_shared<MockVendingMachine>();
-        idleState = std::make_unique<IdleState>(mockVM);
+        idleState = std::make_shared<IdleState>(mockVM);
     }
 };
 
