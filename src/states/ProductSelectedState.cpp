@@ -43,7 +43,6 @@ VendingMachineErrorCode ProductSelectedState::dispenseProduct()
     vmPtr->setInsertedMoneyAmount(vmPtr->getInsertedMoneyAmount() - vmPtr->getCartPrice());
     if (vmPtr->getInsertedMoneyAmount() > 0.0)
     {
-        std::cout << "Returning change: " << vmPtr->getInsertedMoneyAmount() << std::endl;
         vmPtr->setInsertedMoneyAmount(0.0);
     }
 

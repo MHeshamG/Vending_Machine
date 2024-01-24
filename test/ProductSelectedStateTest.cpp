@@ -65,7 +65,6 @@ TEST_F(ProductSelectedStateTest, DispenseProduct_SUCCESS_ReturnChange) {
 
     EXPECT_CALL(*mockVM, getInsertedMoneyAmount())
     .WillOnce(Return(insertedMoney))
-    .WillOnce(Return(insertedMoneyAfterDeduction))
     .WillOnce(Return(insertedMoneyAfterDeduction));
     EXPECT_CALL(*mockVM, getCartPrice()).WillOnce(Return(cartPrice));
     EXPECT_CALL(*mockVM, setInsertedMoneyAmount(cartPrice)).Times(1);
