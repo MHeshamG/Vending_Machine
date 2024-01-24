@@ -6,9 +6,7 @@ using VendingMachineState = vendingmachine::VendingMachineState;
 using Product = vendingmachine::Product;
 
 VendingMachine::VendingMachine() : moneyAmount{0}, cartPrice{0}
-{
-    std::cout << "Vending Machine starting..." << std::endl;
-}
+{}
 
 void VendingMachine::init(std::shared_ptr<VendingMachineState> state)
 {
@@ -57,11 +55,9 @@ VendingMachineErrorCode VendingMachine::addProduct(std::shared_ptr<Product> prod
     if (it == availableProducts.end())
     {
         const auto &it = availableProducts.insert({product->getName(), product});
-        std::cout << "Product added successfully " << product->getName() << std::endl;
     }
     else
     {
-        std::cout << "Product already added: " << product->getName() << std::endl;
         return VendingMachineErrorCode::PRODUCT_ALREADY_ADDED;
     }
 

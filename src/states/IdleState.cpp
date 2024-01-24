@@ -17,7 +17,6 @@ VendingMachineErrorCode IdleState::insertMoney(double money)
     std::shared_ptr<IVendingMachine> vmPtr = vm.lock();
     double totalInsertedMoney = vmPtr->getInsertedMoneyAmount() + money;
     vmPtr->setInsertedMoneyAmount(totalInsertedMoney);
-    std::cout<< "Money inserted: "<<totalInsertedMoney<<std::endl;
     std::shared_ptr<VendingMachineState> hasMoneyState = std::make_shared<HasMoneyState>(vmPtr);
     vmPtr->changeState(hasMoneyState);
 

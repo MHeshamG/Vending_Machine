@@ -22,16 +22,10 @@ VendingMachineErrorCode ProductSelectedState::selectProduct(std::string productN
     {
         if (vmPtr->hasEnoughMoneyForProduct(productName))
         {
-            if(vmPtr->addToCart(productName)){
-                std::cout<<"Product added to cart: "<<productName<<std::endl;
-            }
-            else{
-                std::cout<<"Product not available: "<<productName<<std::endl;
-            }
+            vmPtr->addToCart(productName);
         }
         else
         {
-            std::cout<<"Not enough money for product "<<productName<<std::endl;
             return VendingMachineErrorCode::NOT_ENOUGH_MONEY;
         }
     }
@@ -56,7 +50,6 @@ VendingMachineErrorCode ProductSelectedState::dispenseProduct()
     for (const auto &[name, quantity] : vmPtr->getCart())
     {
         auto product = vmPtr->getProduct(name);
-        std::cout << "Dispensing product: " << product->getName() << " with quantity: "<<quantity<<std::endl;
         product->decreaseQuantity(quantity);
     }
 

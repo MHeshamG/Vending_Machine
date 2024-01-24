@@ -8,6 +8,8 @@ find_package(GTest REQUIRED)
 
 # Sources
 set(SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/CommandLineVendingMachineView.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachinePresenter.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachine.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Product.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/states/VendingMachineState.cpp"
