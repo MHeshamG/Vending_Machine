@@ -8,15 +8,15 @@ find_package(GTest REQUIRED)
 
 # Sources
 set(SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/CommandLineVendingMachineView.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachinePresenter.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/VendingMachine.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Product.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/VendingMachineState.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/IdleState.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/HasMoneyState.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/ProductSelectedState.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/states/LockState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/view/CommandLineVendingMachineView.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/presenter/VendingMachinePresenter.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/VendingMachine.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/Product.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states/VendingMachineState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states/IdleState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states/HasMoneyState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states/ProductSelectedState.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states/LockState.cpp"
 )
 
 
@@ -31,8 +31,10 @@ add_executable(vending-machine-exe ${EXE_SOURCES})
 target_compile_features(vending-machine-exe PRIVATE cxx_std_17)
 
 target_include_directories(vending-machine-exe PUBLIC 
-                           "${CMAKE_CURRENT_SOURCE_DIR}/src" 
-                           "${CMAKE_CURRENT_SOURCE_DIR}/src/states"
+                           "${CMAKE_CURRENT_SOURCE_DIR}/src/model"
+                           "${CMAKE_CURRENT_SOURCE_DIR}/src/presenter"
+                           "${CMAKE_CURRENT_SOURCE_DIR}/src/view"
+                           "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states"
 )
 
 # Test sources
@@ -54,8 +56,10 @@ add_executable(vending-machine-tests ${TEST_SOURCES})
 target_compile_features(vending-machine-tests PRIVATE cxx_std_17)
 
 target_include_directories(vending-machine-tests PUBLIC 
-                           "${CMAKE_CURRENT_SOURCE_DIR}/src"
-                           "${CMAKE_CURRENT_SOURCE_DIR}/src/states"
+                            "${CMAKE_CURRENT_SOURCE_DIR}/src/model"
+                            "${CMAKE_CURRENT_SOURCE_DIR}/src/presenter"
+                            "${CMAKE_CURRENT_SOURCE_DIR}/src/view"
+                            "${CMAKE_CURRENT_SOURCE_DIR}/src/model/states"
                            "${CMAKE_CURRENT_SOURCE_DIR}/test"
 )
 
