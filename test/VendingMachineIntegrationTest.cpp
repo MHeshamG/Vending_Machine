@@ -73,3 +73,22 @@ TEST_F(VendingMachineIntegrationTest, ProductNotFoundFlow) {
 
     EXPECT_EQ(errorCode, VendingMachineErrorCode::PRODUCT_NOT_FOUND);
 }
+
+TEST_F(VendingMachineIntegrationTest, MoneyIsEnoughForOneProduct) {
+    auto coke = std::make_shared<Product>("Coke", 1.50, "Refreshing beverage");
+    auto sprite = std::make_shared<Product>("Sprite", 1.25, "Lemon-lime drink");
+    coke->setQuantity(10);
+    sprite->setQuantity(10);
+    vendingMachine->addProduct(coke);
+    vendingMachine->addProduct(sprite);
+
+    vendingMachine->insertMoney(2.00);
+    vendingMachine->selectProduct("Coke");
+    auto errorCode1 =vendingMachine->selectProduct("Sprite");
+    auto errorCode2 = vendingMachine->dispenseProduct();
+
+    EXPECT_EQ(errorCode1, VendingMachineErrorCode::NOT_ENOUGH_MONEY);
+    EXPECT_EQ(errorCode2, VendingMachineErrorCode::SUCCESS);
+    EXPECT_EQ(coke->getQuantity(), 9);
+    EXPECT_EQ(sprite->getQuantity(), 10);
+}

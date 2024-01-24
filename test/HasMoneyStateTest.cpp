@@ -48,6 +48,14 @@ TEST_F(HasMoneyStateTest, SelectProduct_ProductNotFound) {
     EXPECT_EQ(result, VendingMachineErrorCode::PRODUCT_NOT_FOUND);
 }
 
+TEST_F(HasMoneyStateTest, SelectProduct_NoEnoughMoneyForProduct) {
+    EXPECT_CALL(*mockVM, hasProduct("Sprite")).WillOnce(Return(true));
+    EXPECT_CALL(*mockVM, hasEnoughMoneyForProduct("Sprite")).WillOnce(Return(false));
+
+    auto result = hasMoneyState->selectProduct("Sprite");
+    EXPECT_EQ(result, VendingMachineErrorCode::NOT_ENOUGH_MONEY);
+}
+
 TEST_F(HasMoneyStateTest, DispenseProduct_NoProductSelected) {
     auto result = hasMoneyState->dispenseProduct();
     EXPECT_EQ(result, VendingMachineErrorCode::NO_PRODUCT_SELECTED);

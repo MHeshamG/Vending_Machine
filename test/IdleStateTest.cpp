@@ -23,8 +23,8 @@ protected:
 
 TEST_F(IdleStateTest, InsertMoney_Success) {
     // Set up expectations
-    EXPECT_CALL(*mockVM, getInsertedMoneyAmount()).WillOnce(Return(0.0));
-    EXPECT_CALL(*mockVM, setInsertedMoneyAmount(100.0)).Times(1);
+    EXPECT_CALL(*mockVM, getInsertedMoneyAmount()).WillOnce(Return(20.0));
+    EXPECT_CALL(*mockVM, setInsertedMoneyAmount(120.0)).Times(1);
     EXPECT_CALL(*mockVM, changeState(::testing::_)).Times(1);
 
     // Execute test
